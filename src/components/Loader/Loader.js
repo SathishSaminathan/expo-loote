@@ -22,7 +22,7 @@ class Loader extends Component {
         <ActivityIndicator color="white" size="large" />
         <Text
           style={{
-            color: "white",
+            color: Colors.white,
             fontSize: 20
           }}
         >
