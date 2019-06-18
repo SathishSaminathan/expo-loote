@@ -1,19 +1,50 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow
+ */
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+import React, { Component } from "react";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  Image,
+  Button,
+  ScrollView
+} from "react-native";
+import { Constants, Font } from "expo";
+
+import Images from "./src/assets/images/images";
+import Colors from "./src/constants/ThemeConstants";
+import CustomSwiper from "./src/components/Swiper/CustomSwiper";
+import Header from "./src/components/Header/Header";
+import Loader from "./src/components/Loader/Loader";
+import Home from "./src/screens/Home";
+
+export default class App extends Component {
+
+  render() {
+
+    return (
+      <View style={styles.container}>
+        {/* <StatusBar
+          backgroundColor={Colors.primaryLightThemeColor}
+          showHideTransition="fade"
+        /> */}
+        <Home/>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    flex: 1
+    // backgroundColor: Colors.primaryThemeColor
+  }
 });
