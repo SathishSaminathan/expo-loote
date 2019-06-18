@@ -15,7 +15,6 @@ class FloatingButton extends Component {
   };
 
   render() {
-    console.log(this.props)
     return (
       <TouchableOpacity
         onPress={this.handleOnPress}

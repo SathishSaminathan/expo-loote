@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   iconStyle:{
-      color:"white",
+      color:Colors.white,
       fontSize: 25,
   }
 });

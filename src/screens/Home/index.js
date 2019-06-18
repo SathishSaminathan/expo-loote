@@ -6,9 +6,10 @@ import {
   View,
   StatusBar,
   Image,
-  Button,
+  Linking,
   ScrollView,
-  TouchableOpacity
+  Dimensions,
+  RefreshControl
 } from "react-native";
 import { Constants, Font, LinearGradient } from "expo";
 
@@ -16,14 +17,16 @@ import Colors from "../../constants/ThemeConstants";
 import Header from "../../components/Header/Header";
 import CustomSwiper from "../../components/Swiper/CustomSwiper";
 import FloatingButton from "../../components/FLB/FloatingButton";
+import DealsOfTheDay from "../../components/DealsOfTheDay/DealsOfTheDay";
+import PickedForYou from "../../components/PickedForYou/PickedForYou";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      fontLoaded: false,
-      fab: false
+      fab: false,
+      fontLoaded: false
     };
   }
 
@@ -40,12 +43,18 @@ class Home extends Component {
     });
   }
 
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+    }, 1000);
+  };
+
   scrollToTop = () => {
     this.scroll.scrollTo({ x: 0, y: 0, animated: true, fab: false });
   };
 
   handleScroll = event => {
-    console.log(event.nativeEvent.contentOffset.y);
     if (event.nativeEvent.contentOffset.y === 0) {
       this.setState({ fab: false });
     } else {
@@ -56,7 +65,7 @@ class Home extends Component {
   };
 
   render() {
-    const { fab } = this.state;
+    const { fab, fontLoaded } = this.state;
     return (
       <View
         style={{
@@ -75,9 +84,12 @@ class Home extends Component {
             onScroll={this.handleScroll}
             onMomentumScrollEnd={this.handleScroll}
             ref={scroll => (this.scroll = scroll)}
-            contentContainerStyle={{
-              height: 1000
-            }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
           >
             <View
               style={{
@@ -86,34 +98,8 @@ class Home extends Component {
             >
               <CustomSwiper />
             </View>
-            <View
-              style={{
-                padding: 10,
-                alignItems: "center"
-              }}
-            >
-              {this.state.fontLoaded && (
-                <Text style={{ fontSize: 20, fontFamily: "Lato-BoldItalic" }}>
-                  Deals of the Day
-                </Text>
-              )}
-            </View>
-            <View
-              style={{
-                margin: 5
-              }}
-            >
-              <LinearGradient
-                start={{ x: 0, y: 0.75 }}
-                end={{ x: 1, y: 0.25 }}
-                colors={["#f74e7f", "#f74e7f", "#f74e7f", "#f87b48", "#f87b48"]}
-                style={{
-                  height: 600,
-                  borderRadius: 10,
-                  elevation: 10
-                }}
-              />
-            </View>
+            <DealsOfTheDay fontLoaded={fontLoaded} />
+            <PickedForYou fontLoaded={fontLoaded}/>
           </ScrollView>
           {fab && <FloatingButton scroll={this.scrollToTop} />}
         </View>
