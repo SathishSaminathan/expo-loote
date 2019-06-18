@@ -25,6 +25,7 @@ import CustomSwiper from "./src/components/Swiper/CustomSwiper";
 import Header from "./src/components/Header/Header";
 import Loader from "./src/components/Loader/Loader";
 import Home from "./src/screens/Home";
+import AppDrawerContainer from "./src/navigations/AppDrawerNavigator";
 
 export default class App extends Component {
 
@@ -36,7 +37,7 @@ export default class App extends Component {
           backgroundColor={Colors.primaryLightThemeColor}
           showHideTransition="fade"
         /> */}
-        <Home/>
+        <AppDrawerContainer/>
       </View>
     );
   }
