@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   Image,
   Linking,
   ScrollView,
@@ -19,6 +18,8 @@ import CustomSwiper from "../../components/Swiper/CustomSwiper";
 import FloatingButton from "../../components/FLB/FloatingButton";
 import DealsOfTheDay from "../../components/DealsOfTheDay/DealsOfTheDay";
 import PickedForYou from "../../components/PickedForYou/PickedForYou";
+import StatusBar from "../../components/StatusBar/StatusBar";
+import AppConstants from "../../constants/AppConstants";
 
 class Home extends Component {
   constructor(props) {
@@ -72,13 +73,8 @@ class Home extends Component {
           flex: 1
         }}
       >
-        <View
-          style={{
-            height: Constants.statusBarHeight,
-            backgroundColor: Colors.primaryDarkThemeColor
-          }}
-        />
-        <Header />
+        <StatusBar />
+        <Header {...this.props} screen={AppConstants.HOME} />
         <View style={styles.MainContainer}>
           <ScrollView
             onScroll={this.handleScroll}
@@ -99,7 +95,7 @@ class Home extends Component {
               <CustomSwiper />
             </View>
             <DealsOfTheDay fontLoaded={fontLoaded} />
-            <PickedForYou fontLoaded={fontLoaded}/>
+            <PickedForYou fontLoaded={fontLoaded} />
           </ScrollView>
           {fab && <FloatingButton scroll={this.scrollToTop} />}
         </View>
