@@ -5,9 +5,12 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
-  Linking
+  Linking,
+  Share
 } from "react-native";
 import { LinearGradient } from "expo";
+import { Feather } from "@expo/vector-icons";
+
 import Colors from "../../constants/ThemeConstants";
 
 const { width, height } = Dimensions.get("window");
@@ -54,9 +57,29 @@ class DealsOfTheDay extends Component {
     super(props);
   }
 
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          "https://amzn.to/2INiHU2"
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   dealsOfTheDayProduct = () => {
     let productTemplate = [];
-
     DealsOfTheDayData.map((data, i) => {
       productTemplate.push(
         <TouchableOpacity
@@ -75,9 +98,21 @@ class DealsOfTheDay extends Component {
           <View
             style={{
               width: "100%",
-              height: "95%"
+              height: "95%",
+              position: "relative"
             }}
           >
+            <TouchableOpacity
+              onPress={this.onShare}
+              style={{alignSelf:'flex-end'}}
+            >
+              <Feather
+                style={{
+                  color: Colors.primaryDarkThemeColor, fontSize:20
+                }}
+                name="share-2"
+              />
+            </TouchableOpacity>
             <Image
               source={{ uri: data.image }}
               style={{ flex: 1, width: null, height: null }}
