@@ -97,7 +97,8 @@ class Home extends Component {
             <DealsOfTheDay fontLoaded={fontLoaded} />
             <PickedForYou fontLoaded={fontLoaded} />
           </ScrollView>
-          {fab && <FloatingButton scroll={this.scrollToTop} />}
+          {/* {fab && <FloatingButton scroll={this.scrollToTop} />} */}
+          <FloatingButton scroll={this.scrollToTop} buttonShow={fab}/>
         </View>
         {/* <Button
           title="Learn More"

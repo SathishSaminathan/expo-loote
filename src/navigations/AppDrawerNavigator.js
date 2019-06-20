@@ -11,6 +11,7 @@ import Home from "../screens/Home";
 import Notification from "../screens/Notification";
 import Colors from "../constants/ThemeConstants";
 import StatusBar from "../components/StatusBar/StatusBar";
+import ProductDetails from "../screens/ProductDetails";
 
 const { width, height } = Dimensions.get("window");
 
@@ -46,7 +47,7 @@ const CustomDrawerItems = props => (
 
 const AppDrawerNavigator = createDrawerNavigator(
   {
-    Home: Home,
+    Home: ProductDetails,
     Notification: Notification
   },
   {

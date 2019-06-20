@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import {
-  Image,
-  TouchableWithoutFeedback,
-  Linking
-} from "react-native";
+import { Image, TouchableWithoutFeedback } from "react-native";
 import Swiper from "react-native-swiper";
+import { WebBrowser } from "expo";
 
 import Images from "../../assets/images/images";
 import Colors from "../../constants/ThemeConstants";
@@ -28,10 +25,10 @@ export default class CustomSwiper extends Component {
 
   displaySwiper = () => {
     let swiperTamplate = [];
-    swiperData.map((data,i) => {
+    swiperData.map((data, i) => {
       swiperTamplate.push(
         <TouchableWithoutFeedback
-          onPress={() => Linking.openURL(data.link)}
+          onPress={() => WebBrowser.openBrowserAsync(data.link)}
           style={{ flex: 1 }}
           key={i}
         >

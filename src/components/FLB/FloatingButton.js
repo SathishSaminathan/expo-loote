@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Animated
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 import Colors from "../../constants/ThemeConstants";
@@ -7,18 +13,45 @@ import Colors from "../../constants/ThemeConstants";
 class FloatingButton extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.animated = new Animated.Value(0);
   }
 
   handleOnPress = () => {
-    this.props.scroll()
+    this.props.scroll();
+  };
+
+  animateTheButton = showButton => {
+    if (showButton) {
+      Animated.spring(this.animated, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+        friction: 100,
+        tension: 100
+      }).start();
+    } else {
+      Animated.spring(this.animated, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+        friction: 100,
+        tension: 100
+      }).start();
+    }
   };
 
   render() {
+    this.animateTheButton(this.props.buttonShow);
+
+    const translateY = this.animated.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 100]
+    });
+
     return (
       <TouchableOpacity
         onPress={this.handleOnPress}
-        style={styles.buttonStyles}
+        style={[styles.buttonStyles, { translateY }]}
       >
         <Feather name="arrow-up" style={{ fontSize: 20 }} />
       </TouchableOpacity>

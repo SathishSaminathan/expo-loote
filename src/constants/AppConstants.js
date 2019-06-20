@@ -1,6 +1,7 @@
 const AppConstants = {
   HOME: "HOME",
-  NOTIFICATION: "NOTIFICATION"
+  NOTIFICATION: "NOTIFICATION",
+  PRODUCTDETAILS:'PRODUCTDETAILS'
 };
 
 export default AppConstants;
