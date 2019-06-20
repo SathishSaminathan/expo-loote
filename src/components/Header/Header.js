@@ -39,13 +39,35 @@ class Header extends Component {
             <Text
               style={{
                 color: Colors.secondaryColor,
-                fontFamily: "Lato-BoldItalic",
+                // fontFamily: "Lato-BoldItalic",
                 fontSize: 20
               }}
             >
               Notification
             </Text>
             <View />
+          </>
+        );
+      case AppConstants.PRODUCTDETAILS:
+        return (
+          <>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Feather style={styles.iconStyle} name="arrow-left" />
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.secondaryColor,
+                // fontFamily: "Lato-BoldItalic",
+                fontSize: 20
+              }}
+            >
+              Product Details
+            </Text>
+            <TouchableOpacity
+              onPress={() => this.props.toggleMenu()}
+            >
+              <Feather style={styles.iconStyle} name="more-vertical" />
+            </TouchableOpacity>
           </>
         );
     }

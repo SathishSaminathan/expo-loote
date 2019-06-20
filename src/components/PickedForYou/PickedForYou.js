@@ -5,9 +5,11 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
-  Linking
+  Share
 } from "react-native";
-import { LinearGradient } from "expo";
+import { LinearGradient, WebBrowser } from "expo";
+import { Feather } from "@expo/vector-icons";
+
 import Colors from "../../constants/ThemeConstants";
 
 const { width, height } = Dimensions.get("window");
@@ -55,6 +57,26 @@ class PickedForYou extends Component {
     this.state = {};
   }
 
+  onShare = async (link) => {
+    try {
+      const result = await Share.share({
+        message: link
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   pickedForYouProduct = () => {
     let productTemplate = [];
 
@@ -62,7 +84,7 @@ class PickedForYou extends Component {
       productTemplate.push(
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => Linking.openURL(data.link)}
+          onPress={() => WebBrowser.openBrowserAsync(data.link)}
           style={{
             width: PRODUCT_CARD_WIDTH,
             height: PRODUCT_CARD_HEIGHT,
@@ -79,6 +101,18 @@ class PickedForYou extends Component {
               height: "95%"
             }}
           >
+            <TouchableOpacity
+              onPress={()=>this.onShare(data.link)}
+              style={{ alignSelf: "flex-end" }}
+            >
+              <Feather
+                style={{
+                  color: Colors.primaryDarkThemeColor,
+                  fontSize: 20
+                }}
+                name="share-2"
+              />
+            </TouchableOpacity>
             <Image
               source={{ uri: data.image }}
               style={{ flex: 1, width: null, height: null }}
