@@ -3,7 +3,8 @@ const Colors = {
   primaryDarkThemeColor:"#004abd",
   primaryLightThemeColor:"#71a2ff",
   secondaryColor:'#ffe500',
-  white:'#ffffff'
+  white:'#ffffff',
+  black:'#111111'
 };
 
 export default Colors;

@@ -2,7 +2,8 @@ import React from "react";
 import {
   createDrawerNavigator,
   DrawerItems,
-  createAppContainer
+  createAppContainer,
+  createStackNavigator
 } from "react-navigation";
 import { SafeAreaView, ScrollView, Dimensions, View } from "react-native";
 import { Constants } from "expo";
@@ -12,6 +13,7 @@ import Notification from "../screens/Notification";
 import Colors from "../constants/ThemeConstants";
 import StatusBar from "../components/StatusBar/StatusBar";
 import ProductDetails from "../screens/ProductDetails";
+import WebViewPage from "../screens/WebViewPage";
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,7 +23,7 @@ const CustomDrawerItems = props => (
       flex: 1
     }}
   >
-    <StatusBar/>
+    <StatusBar />
     <View
       style={{
         height: 150,
@@ -45,9 +47,21 @@ const CustomDrawerItems = props => (
   </SafeAreaView>
 );
 
+const stackNavigations = createStackNavigator(
+  {
+    Home: Home,
+    ProductDetails: ProductDetails,
+    WebViewPage: WebViewPage
+  },
+  {
+    initialRouteName: "Home",
+    headerMode: "none"
+  }
+);
+
 const AppDrawerNavigator = createDrawerNavigator(
   {
-    Home: ProductDetails,
+    Home: stackNavigations,
     Notification: Notification
   },
   {

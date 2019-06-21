@@ -6,9 +6,10 @@ import {
   Dimensions,
   TouchableOpacity,
   StyleSheet,
-  Image
+  Image,
+  WebView
 } from "react-native";
-import { Constants } from "expo";
+import { Constants, WebBrowser } from "expo";
 import { Feather } from "@expo/vector-icons";
 
 import AppConstants from "../../constants/AppConstants";
@@ -84,7 +85,7 @@ class ProductDetails extends Component {
             zIndex: 3
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>this.props.navigation.pop()}>
             <Feather style={styles.iconStyle} name="arrow-left" />
           </TouchableOpacity>
           <Text
@@ -126,28 +127,19 @@ class ProductDetails extends Component {
           <TouchableOpacity activeOpacity={1} style={styles.menuButtons}>
             <View style={styles.itemStyles}>
               <Feather
-                name="send"
+                name="share-2"
                 style={{ fontSize: 25, color: Colors.primaryThemeColor }}
               />
-              <Text>Send</Text>
+              <Text>Share</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={1} style={styles.menuButtons}>
             <View style={styles.itemStyles}>
               <Feather
-                name="search"
+                name="heart"
                 style={{ fontSize: 25, color: Colors.primaryThemeColor }}
               />
-              <Text>Set as Lost</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={1} style={styles.menuButtons}>
-            <View style={styles.itemStyles}>
-              <Feather
-                name="cloud-snow"
-                style={{ fontSize: 25, color: Colors.primaryThemeColor }}
-              />
-              <Text>Send</Text>
+              <Text>Save</Text>
             </View>
           </TouchableOpacity>
         </Animated.View>
@@ -180,14 +172,49 @@ class ProductDetails extends Component {
             paddingTop: HEADER_HEIGHT
           }}
         >
-          <Text>Welcome</Text>
-          <Image
-            source={{
-              uri:
-                "https://images.unsplash.com/photo-1508138142660-302e69e74271?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+          <Text style={styles.productName}>
+            Tamatina Pub G Laptop Skins for 15.6 inch Laptop - HD Quality -
+            Dell-Lenovo-HP-Acer - LP1
+          </Text>
+          <View style={{ width: "100%", height: 300 }}>
+            <Image
+              source={{
+                uri:
+                  "https://images-na.ssl-images-amazon.com/images/I/71yomw7uPmL._SX679_.jpg"
+              }}
+              style={{
+                width: null,
+                height: null,
+                flex: 1,
+                paddingHorizontal: 10
+              }}
+            />
+          </View>
+          <View style={{ padding: 10 }}>
+            <Text
+              style={{
+                color: Colors.black,
+                fontSize: 40
+              }}
+            >
+              $<Text style={{ color: Colors.black, fontSize: 30 }}>12</Text>
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              padding: 10,
+              backgroundColor: Colors.primaryThemeColor,
+              borderRadius: 20,
+              marginHorizontal: 10
             }}
-            style={{ width: width, height: 300 }}
-          />
+            onPress={() => this.props.navigation.push("WebViewPage")}
+          >
+            <Text
+              style={{ color: Colors.white, fontSize: 20, textAlign: "center" }}
+            >
+              See More and Buy With Amazon
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -212,5 +239,11 @@ const styles = StyleSheet.create({
   iconStyle: {
     color: Colors.white,
     fontSize: 25
+  },
+  productName: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: Colors.black,
+    paddingHorizontal: 10
   }
 });
