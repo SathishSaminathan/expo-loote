@@ -15,16 +15,25 @@ class Loader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      count: 10
+      count: 6,
+      sorryText: ""
     };
     this.startTimer();
   }
 
   startTimer = () => {
     this.timer = setInterval(() => {
-      this.setState({
-        count: this.state.count - 1
-      });
+      if (this.state.count > 0) {
+        this.setState({
+          count: this.state.count - 1
+        });
+      } else {
+        clearInterval(this.timer);
+        this.setState({
+          sorryText:
+            "Sorry due to poor connection the site loading slow.. Please wait"
+        });
+      }
     }, 1000);
   };
 
@@ -33,28 +42,43 @@ class Loader extends Component {
   }
 
   render() {
-    const { count } = this.state;
+    const { count, sorryText } = this.state;
 
     return (
       <View style={styles.container}>
         <ActivityIndicator color="white" size="large" />
-        <Text
+        <View
           style={{
-            color: Colors.white,
-            fontSize: 20
+            // flex: 1
+            alignItems: "center",
+            padding: 5
           }}
         >
-          Take a Deep Breathe for
           <Text
             style={{
               color: Colors.white,
-              fontSize: 40,flex:1,
-              flexDirection: "column"
+              fontSize: 20
+            }}
+          >
+            Take a Deep Breathe for
+          </Text>
+          <Text
+            style={{
+              color: Colors.white,
+              fontSize: 40
             }}
           >
             {count}sec...
           </Text>
-        </Text>
+          <Text
+            style={{
+              color: Colors.white,
+              fontSize: 20, textAlign:'center'
+            }}
+          >
+            {sorryText.length !== 0 && sorryText}
+          </Text>
+        </View>
       </View>
     );
   }
