@@ -91,7 +91,7 @@ class ProductDetails extends Component {
           <Text
             style={{
               color: Colors.secondaryColor,
-              // fontFamily: "Lato-BoldItalic",
+              fontFamily: "Lato-Regular",
               fontSize: 20
             }}
           >
@@ -242,8 +242,8 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontSize: 22,
-    fontWeight: "bold",
     color: Colors.black,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    fontFamily: "Lato-Regular",
   }
 });
