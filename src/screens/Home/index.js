@@ -94,8 +94,8 @@ class Home extends Component {
             >
               <CustomSwiper />
             </View>
-            <DealsOfTheDay fontLoaded={fontLoaded} />
-            <PickedForYou fontLoaded={fontLoaded} />
+            <DealsOfTheDay {...this.props} fontLoaded={fontLoaded} />
+            <PickedForYou {...this.props} fontLoaded={fontLoaded} />
           </ScrollView>
           {/* {fab && <FloatingButton scroll={this.scrollToTop} />} */}
           <FloatingButton scroll={this.scrollToTop} buttonShow={fab}/>

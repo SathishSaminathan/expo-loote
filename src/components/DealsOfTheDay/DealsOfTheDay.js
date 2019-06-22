@@ -82,7 +82,8 @@ class DealsOfTheDay extends Component {
       productTemplate.push(
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => WebBrowser.openBrowserAsync(data.link)}
+          // onPress={() => WebBrowser.openBrowserAsync(data.link)}
+          onPress={()=>this.props.navigation.push('ProductDetails')}
           style={{
             width: PRODUCT_CARD_WIDTH,
             height: PRODUCT_CARD_HEIGHT,
@@ -101,7 +102,7 @@ class DealsOfTheDay extends Component {
             }}
           >
             <TouchableOpacity
-              onPress={()=>this.onShare(data.link)}
+              onPress={() => this.onShare(data.link)}
               style={{ alignSelf: "flex-end" }}
             >
               <Feather
