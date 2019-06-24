@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
+  Button,
   Linking,
   ScrollView,
   Dimensions,
@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Constants, Font, LinearGradient } from "expo";
 
+import firebase from "../../config/firebase";
 import Colors from "../../constants/ThemeConstants";
 import Header from "../../components/Header/Header";
 import CustomSwiper from "../../components/Swiper/CustomSwiper";
@@ -65,6 +66,13 @@ class Home extends Component {
     }
   };
 
+  handleSignOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => console.log("signed out!!!"));
+  };
+
   render() {
     const { fab, fontLoaded } = this.state;
     return (
@@ -98,8 +106,9 @@ class Home extends Component {
             <PickedForYou {...this.props} fontLoaded={fontLoaded} />
           </ScrollView>
           {/* {fab && <FloatingButton scroll={this.scrollToTop} />} */}
-          <FloatingButton scroll={this.scrollToTop} buttonShow={fab}/>
+          <FloatingButton scroll={this.scrollToTop} buttonShow={fab} />
         </View>
+        <Button title="Sign Out" onPress={() => this.handleSignOut()} />
         {/* <Button
           title="Learn More"
           color="#841584"

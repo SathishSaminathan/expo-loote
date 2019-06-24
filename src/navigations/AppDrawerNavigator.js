@@ -14,6 +14,8 @@ import Colors from "../constants/ThemeConstants";
 import StatusBar from "../components/StatusBar/StatusBar";
 import ProductDetails from "../screens/ProductDetails";
 import WebViewPage from "../screens/WebViewPage";
+import Login from "../screens/auth/Login";
+import LoadingScreen from "../screens/LoadingScreen";
 
 const { width, height } = Dimensions.get("window");
 
@@ -47,7 +49,7 @@ const CustomDrawerItems = props => (
   </SafeAreaView>
 );
 
-const stackNavigations = createStackNavigator(
+const productStackNavigations = createStackNavigator(
   {
     Home: Home,
     ProductDetails: ProductDetails,
@@ -59,9 +61,9 @@ const stackNavigations = createStackNavigator(
   }
 );
 
-const AppDrawerNavigator = createDrawerNavigator(
+const AppDrawerNavigations = createDrawerNavigator(
   {
-    Home: stackNavigations,
+    Home: productStackNavigations,
     Notification: Notification
   },
   {
@@ -76,6 +78,20 @@ const AppDrawerNavigator = createDrawerNavigator(
   }
 );
 
-const AppDrawerContainer = createAppContainer(AppDrawerNavigator);
+const stackNavigations = createStackNavigator(
+  {
+    LoadingScreen: LoadingScreen,
+    Login: Login,
+    Home: AppDrawerNavigations
+  },
+  {
+    initialRouteName: "LoadingScreen",
+    headerMode: "none"
+  }
+);
+
+const RootStackContainer = createAppContainer(stackNavigations);
+
+const AppDrawerContainer = createAppContainer(AppDrawerNavigations);
 
 export default AppDrawerContainer;
