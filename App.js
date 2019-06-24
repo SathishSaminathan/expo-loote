@@ -17,7 +17,7 @@ import {
   Button,
   ScrollView
 } from "react-native";
-import { Constants, Font } from "expo";
+import { Constants, Font, Permissions, Notifications } from "expo";
 
 import firebase from "./src/config/firebase";
 import AppDrawerContainer from "./src/navigations/AppDrawerNavigator";
@@ -32,13 +32,55 @@ export default class App extends Component {
     this.checkIfUserLogggedIn();
   }
 
+  registerForPushNotificationAsync = async user => {
+    console.log("notification register");
+    const { status: existingStatus } = await Permissions.getAsync(
+      Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+
+    // only ask if permissions have not already been determined, because
+    // iOS won't necessarily prompt the user a second time.
+    if (existingStatus !== "granted") {
+      // Android remote notification permissions are granted during the app
+      // install, so this will only ask on iOS
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+
+    // Stop here if the user did not grant permissions
+    if (finalStatus !== "granted") {
+      return;
+    }
+
+    // Get the token that uniquely identifies this device
+    let token = await Notifications.getExpoPushTokenAsync();
+
+    var updates = {};
+
+    updates["/expoToken"] = token;
+    firebase
+      .database()
+      .ref("users")
+      .child(user.uid)
+      .update(updates)
+      .then(() => console.log("updated"));
+  };
+
+  updatePushTokenForUser = user => {
+    this.registerForPushNotificationAsync(user);
+  };
+
   checkIfUserLogggedIn() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         console.log("user ");
-        this.setState({
-          isUserLoggedIn: true
-        });
+        this.setState(
+          {
+            isUserLoggedIn: true
+          },
+          () => this.updatePushTokenForUser(user)
+        );
       } else {
         console.log("no user !!! :");
         this.setState({
