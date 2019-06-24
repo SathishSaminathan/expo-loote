@@ -1,18 +1,33 @@
 import React, { Component } from "react";
-import { View, Text, Button, Image } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions
+} from "react-native";
 import * as Expo from "expo";
+import { Feather } from "@expo/vector-icons";
 
 import firebase from "../../../config/firebase";
 import AppConstants from "../../../constants/AppConstants";
+import Colors from "../../../constants/ThemeConstants";
+import Images from "../../../assets/images/images";
+import Loader from "../../../components/Loader/Loader";
 
-export default class Login extends Component {
+const { width, height } = Dimensions.get("window");
+
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       accessToken: null,
       name: "",
       image: null,
-      userRef: firebase.database().ref("users")
+      userRef: firebase.database().ref("users"),
+      loggingIn: false
     };
   }
 
@@ -99,6 +114,9 @@ export default class Login extends Component {
 
   signInWithGoogleAsync = async () => {
     try {
+      this.setState({
+        loggingIn: true
+      });
       const result = await Expo.Google.logInAsync({
         behavior: "web",
         androidClientId: AppConstants.ANDROID_CLIENT_ID,
@@ -106,21 +124,18 @@ export default class Login extends Component {
       });
 
       if (result.type === "success") {
-        this.setState(
-          {
-            accessToken: result.accessToken,
-            name: result.user.name,
-            image: result.user.photoUrl
-          },
-          () => {
-            this.onSignIn(result);
-          }
-        );
+        this.onSignIn(result);
       } else {
         // return { cancelled: true };
+        this.setState({
+          loggingIn: false
+        });
         console.log("user cancelled");
       }
     } catch (e) {
+      this.setState({
+        loggingIn: false
+      });
       console.log(e);
     }
   };
@@ -159,34 +174,83 @@ export default class Login extends Component {
   };
 
   render() {
-    const { accessToken, name, image } = this.state;
+    const { loggingIn } = this.state;
 
     return (
       <View
         style={{
           flex: 1,
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          backgroundColor: Colors.primaryThemeColor
         }}
       >
-        {/* {accessToken && (
-          <>
-            <Text>{name}</Text>
+        <View style={styles.welcomeTextArea}>
+          <Text style={styles.welcomeText}>Welcome to</Text>
+        </View>
+        <View style={styles.imageContainer}>
+          <View style={styles.image}>
             <Image
-              source={{ uri: image }}
+              style={{ flex: 1, width: null, height: null }}
+              resizeMode="contain"
+              source={Images.logowithname}
+            />
+          </View>
+        </View>
+        <View style={styles.footerArea}>
+          <Text
+            style={{
+              color: Colors.secondaryColor,
+              fontFamily: "Lato-Italic",
+              fontSize: 22,
+              textAlign: "center"
+            }}
+          >
+            Sign In To Get Personalized Notifications
+            <Feather
+              name="bell"
               style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50
+                color: Colors.secondaryColor,
+                fontSize: 22,
+                marginHorizontal: 20
               }}
             />
-          </>
-        )} */}
-        <Button
-          title={"Sign In"}
-          onPress={() => this.signInWithGoogleAsync()}
-        />
+          </Text>
+          <TouchableOpacity
+            onPress={this.signInWithGoogleAsync}
+            style={{
+              marginTop: 10
+            }}
+          >
+            <Image
+              source={Images.googleSignIn}
+              style={{ width: 80, height: 80 }}
+            />
+          </TouchableOpacity>
+        </View>
+        {loggingIn && <Loader screen={AppConstants.LOGIN} />}
       </View>
     );
   }
 }
+export default Login;
+
+const styles = StyleSheet.create({
+  welcomeTextArea: {
+    alignItems: "center"
+  },
+  welcomeText: {
+    fontSize: 40,
+    color: Colors.secondaryColor,
+    paddingTop: Expo.Constants.statusBarHeight,
+    fontFamily: "Lato-BoldItalic"
+  },
+  imageContainer: {},
+  image: {
+    width: width,
+    height: 100
+  },
+  footerArea: {
+    alignItems: "center"
+  }
+});

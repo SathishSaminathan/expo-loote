@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Image } from "react-native";
 import Colors from "../../constants/ThemeConstants";
+import Images from "../../assets/images/images";
 
 class LoadingScreen extends Component {
   constructor(props) {
@@ -11,8 +12,8 @@ class LoadingScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ActivityIndicator color={Colors.white} size="large" />
-        <Text style={{ color: Colors.white, fontSize: 30 }}> Welcome </Text>
+        <Image source={Images.logo} style={{ width: 100, height: 100 }} />
+        <ActivityIndicator color={Colors.secondaryColor} size="large" />
       </View>
     );
   }

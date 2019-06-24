@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import Colors from "../../constants/ThemeConstants";
+import AppConstants from "../../constants/AppConstants";
 
 const { width, height } = Dimensions.get("window");
 
@@ -43,42 +44,61 @@ class Loader extends Component {
 
   render() {
     const { count, sorryText } = this.state;
+    const { screen } = this.props;
 
     return (
       <View style={styles.container}>
-        <ActivityIndicator color="white" size="large" />
-        <View
-          style={{
-            // flex: 1
-            alignItems: "center",
-            padding: 5
-          }}
-        >
+        <ActivityIndicator color={Colors.secondaryColor} size="large" />
+        {screen === AppConstants.LOGIN ? (
           <Text
             style={{
-              color: Colors.white,
-              fontSize: 20
+              // flex: 1
+              textAlign: "center",
+              padding: 10,
+              color: Colors.secondaryColor,
+              fontSize: 20,
+              fontFamily: "Lato-Italic"
             }}
           >
-            Take a Deep Breathe for
+            Please Wait, While We Logging You In..
           </Text>
-          <Text
+        ) : (
+          <View
             style={{
-              color: Colors.white,
-              fontSize: 40
+              // flex: 1
+              alignItems: "center",
+              padding: 5
             }}
           >
-            {count}sec...
-          </Text>
-          <Text
-            style={{
-              color: Colors.white,
-              fontSize: 20, textAlign:'center'
-            }}
-          >
-            {sorryText.length !== 0 && sorryText}
-          </Text>
-        </View>
+            <Text
+              style={{
+                color: Colors.secondaryColor,
+                fontSize: 20,
+                fontFamily: "Lato-Italic"
+              }}
+            >
+              Take a Deep Breathe for
+            </Text>
+            <Text
+              style={{
+                color: Colors.white,
+                fontSize: 40
+              }}
+            >
+              {count}sec...
+            </Text>
+            <Text
+              style={{
+                color: Colors.white,
+                fontSize: 20,
+                textAlign: "center",
+                fontFamily: "Lato-Italic"
+              }}
+            >
+              {sorryText.length !== 0 && sorryText}
+            </Text>
+          </View>
+        )}
       </View>
     );
   }
