@@ -7,16 +7,7 @@
  */
 
 import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Image,
-  Button,
-  ScrollView
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Constants, Font, Permissions, Notifications } from "expo";
 
 import firebase from "./src/config/firebase";
@@ -29,8 +20,18 @@ export default class App extends Component {
     isUserLoggedIn: null
   };
   componentDidMount() {
-    this.checkIfUserLogggedIn();
+    this.loadFonts();
   }
+
+  loadFonts = async () => {
+    await Font.loadAsync({
+      "Lato-Regular": require("./src/assets/fonts/Lato/Lato-Bold.ttf"),
+      "Lato-Bold": require("./src/assets/fonts/Lato/Lato-Bold.ttf"),
+      "Lato-Italic": require("./src/assets/fonts/Lato/Lato-Italic.ttf"),
+      "Lato-BoldItalic": require("./src/assets/fonts/Lato/Lato-BoldItalic.ttf")
+    });
+    this.checkIfUserLogggedIn();
+  };
 
   registerForPushNotificationAsync = async user => {
     console.log("notification register");

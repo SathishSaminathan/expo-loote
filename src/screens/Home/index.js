@@ -33,12 +33,7 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    await Font.loadAsync({
-      "Lato-Regular": require("../../assets/fonts/Lato/Lato-Bold.ttf"),
-      "Lato-Bold": require("../../assets/fonts/Lato/Lato-Bold.ttf"),
-      "Lato-Italic": require("../../assets/fonts/Lato/Lato-Italic.ttf"),
-      "Lato-BoldItalic": require("../../assets/fonts/Lato/Lato-BoldItalic.ttf")
-    });
+    
 
     this.setState({
       fontLoaded: true
@@ -102,8 +97,8 @@ class Home extends Component {
             >
               <CustomSwiper />
             </View>
-            <DealsOfTheDay {...this.props} fontLoaded={fontLoaded} />
-            <PickedForYou {...this.props} fontLoaded={fontLoaded} />
+            <DealsOfTheDay {...this.props} fontLoaded={true} />
+            <PickedForYou {...this.props} fontLoaded={true} />
           </ScrollView>
           {/* {fab && <FloatingButton scroll={this.scrollToTop} />} */}
           <FloatingButton scroll={this.scrollToTop} buttonShow={fab} />

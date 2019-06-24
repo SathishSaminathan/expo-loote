@@ -48,13 +48,20 @@ class FloatingButton extends Component {
       outputRange: [0, 100]
     });
 
+    const opacityAnimation = this.animated.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 0]
+    });
+
     return (
-      <TouchableOpacity
-        onPress={this.handleOnPress}
-        style={[styles.buttonStyles, { translateY }]}
-      >
-        <Feather name="arrow-up" style={{ fontSize: 20 }} />
-      </TouchableOpacity>
+      <Animated.View style={{ opacity: opacityAnimation }}>
+        <TouchableOpacity
+          onPress={this.handleOnPress}
+          style={[styles.buttonStyles, { translateY }]}
+        >
+          <Feather name="arrow-up" style={{ fontSize: 20 }} />
+        </TouchableOpacity>
+      </Animated.View>
     );
   }
 }
