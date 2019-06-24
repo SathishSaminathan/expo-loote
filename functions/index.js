@@ -4,13 +4,40 @@ var fetch = require("node-fetch");
 const admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
 
-exports.sendPushNotification = firebase.database.ref("data").onCreate(event => {
-  const root = event.data.ref.root;
-  var message = [];
+exports.sendPushNotification = functions.database
+  .ref("data")
+  .onCreate(event => {
+    // console.log(event.data);
 
-  root.child('users').once('value').then((snapshot)=>{
-    snapshot.forEach(function(childSnapshot){
-        
-    })
-  })
-});
+    const root = event.data.ref.root;
+    var messages = [];
+
+    //return the main promise
+    return root
+      .child("users")
+      .once("value")
+      .then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var expoToken = childSnapshot.val().expoToken;
+
+          if (expoToken) {
+            messages.push({
+              to: expoToken,
+              body: "New Note Added"
+            });
+          }
+        });
+
+        return Promise.all(messages);
+      })
+      .then(messages => {
+        return fetch("https://exp.host/--/api/v2/push/send", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(messages)
+        });
+      });
+  });
