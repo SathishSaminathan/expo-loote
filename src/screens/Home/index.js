@@ -10,10 +10,7 @@ import {
   Dimensions,
   RefreshControl
 } from "react-native";
-import { Constants, Font, LinearGradient } from "expo";
 
-import firebase from "../../config/firebase";
-import Colors from "../../constants/ThemeConstants";
 import Header from "../../components/Header/Header";
 import CustomSwiper from "../../components/Swiper/CustomSwiper";
 import FloatingButton from "../../components/FLB/FloatingButton";
@@ -32,9 +29,7 @@ class Home extends Component {
     };
   }
 
-  async componentDidMount() {
-    
-
+  async componentDidMount() {   
     this.setState({
       fontLoaded: true
     });
@@ -59,13 +54,6 @@ class Home extends Component {
         fab: true
       });
     }
-  };
-
-  handleSignOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => console.log("signed out!!!"));
   };
 
   render() {
@@ -103,7 +91,7 @@ class Home extends Component {
           {/* {fab && <FloatingButton scroll={this.scrollToTop} />} */}
           <FloatingButton scroll={this.scrollToTop} buttonShow={fab} />
         </View>
-        <Button title="Sign Out" onPress={() => this.handleSignOut()} />
+        
         {/* <Button
           title="Learn More"
           color="#841584"

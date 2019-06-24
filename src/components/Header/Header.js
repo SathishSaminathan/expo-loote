@@ -12,7 +12,7 @@ class Header extends Component {
     this.state = {};
   }
 
-  getHeaderOptions = screen => {
+  getHeaderOptions = (screen, title) => {
     switch (screen) {
       case AppConstants.HOME:
         return (
@@ -43,7 +43,7 @@ class Header extends Component {
                 fontSize: 20
               }}
             >
-              Notification
+              {title}
             </Text>
             <View />
           </>
@@ -63,19 +63,35 @@ class Header extends Component {
             >
               Product Details
             </Text>
-            <TouchableOpacity
-              onPress={() => this.props.toggleMenu()}
-            >
+            <TouchableOpacity onPress={() => this.props.toggleMenu()}>
               <Feather style={styles.iconStyle} name="more-vertical" />
             </TouchableOpacity>
+          </>
+        );
+      case AppConstants.PROFILE:
+        return (
+          <>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Feather style={styles.iconStyle} name="arrow-left" />
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.secondaryColor,
+                // fontFamily: "Lato-BoldItalic",
+                fontSize: 20
+              }}
+            >
+              {title}
+            </Text>
+            <View />
           </>
         );
     }
   };
 
   render() {
-    const { screen } = this.props;
-    const HeaderOptions = this.getHeaderOptions(screen);
+    const { screen, title } = this.props;
+    const HeaderOptions = this.getHeaderOptions(screen, title);
 
     return <View style={styles.headerStyle}>{HeaderOptions}</View>;
   }
