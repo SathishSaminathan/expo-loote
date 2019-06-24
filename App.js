@@ -19,17 +19,41 @@ import {
 } from "react-native";
 import { Constants, Font } from "expo";
 
-import Images from "./src/assets/images/images";
-import Colors from "./src/constants/ThemeConstants";
-import CustomSwiper from "./src/components/Swiper/CustomSwiper";
-import Header from "./src/components/Header/Header";
-import Loader from "./src/components/Loader/Loader";
-import Home from "./src/screens/Home";
+import firebase from "./src/config/firebase";
 import AppDrawerContainer from "./src/navigations/AppDrawerNavigator";
+import Login from "./src/screens/auth/Login";
+import LoadingScreen from "./src/screens/LoadingScreen";
 
 export default class App extends Component {
+  state = {
+    isUserLoggedIn: null
+  };
+  componentDidMount() {
+    this.checkIfUserLogggedIn();
+  }
+
+  checkIfUserLogggedIn() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log("user ");
+        this.setState({
+          isUserLoggedIn: true
+        });
+      } else {
+        console.log("no user !!! :");
+        this.setState({
+          isUserLoggedIn: false
+        });
+      }
+    });
+  }
 
   render() {
+    const { isUserLoggedIn } = this.state;
+
+    if (isUserLoggedIn == null) {
+      return <LoadingScreen />;
+    }
 
     return (
       <View style={styles.container}>
@@ -37,7 +61,7 @@ export default class App extends Component {
           backgroundColor={Colors.primaryLightThemeColor}
           showHideTransition="fade"
         /> */}
-        <AppDrawerContainer/>
+        {isUserLoggedIn ? <AppDrawerContainer /> : <Login />}
       </View>
     );
   }
