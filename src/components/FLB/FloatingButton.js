@@ -48,13 +48,8 @@ class FloatingButton extends Component {
       outputRange: [0, 100]
     });
 
-    const opacityAnimation = this.animated.interpolate({
-      inputRange: [0, 1],
-      outputRange: [1, 0]
-    });
-
     return (
-      <Animated.View style={{ opacity: opacityAnimation }}>
+      <Animated.View>
         <TouchableOpacity
           onPress={this.handleOnPress}
           style={[styles.buttonStyles, { translateY }]}

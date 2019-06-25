@@ -21,7 +21,7 @@ export default class App extends Component {
   };
   componentDidMount() {
     this.loadFonts();
-  }
+  }t
 
   loadFonts = async () => {
     await Font.loadAsync({

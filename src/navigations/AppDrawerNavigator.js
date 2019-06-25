@@ -63,6 +63,17 @@ const productStackNavigations = createStackNavigator(
   }
 );
 
+const ProfileStack = createStackNavigator(
+  {
+    Profile: Profile,
+    ProductDetails: ProductDetails
+  },
+  {
+    initialRouteName: "Profile",
+    headerMode: "none"
+  }
+);
+
 const AppDrawerNavigations = createDrawerNavigator(
   {
     Home: {
@@ -84,17 +95,20 @@ const AppDrawerNavigations = createDrawerNavigator(
       }
     },
     Profile: {
-      screen: Profile,
+      screen: ProfileStack,
       navigationOptions: {
         // title: "Search Videos",
         drawerIcon: ({ tintColor }) => (
           <Feather color={tintColor} name="user" style={{ fontSize: 20 }} />
         )
       }
+    },
+    ProductDetails: {
+      screen: ProductDetails
     }
   },
   {
-    initialRouteName: "Profile",
+    initialRouteName: "Home",
     contentComponent: CustomDrawerItems,
     contentOptions: {
       activeTintColor: Colors.primaryThemeColor,

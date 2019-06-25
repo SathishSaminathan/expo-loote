@@ -4,7 +4,8 @@ const Colors = {
   primaryLightThemeColor:"#71a2ff",
   secondaryColor:'#ffe500',
   white:'#ffffff',
-  black:'#111111'
+  black:'#111111',
+  red:'#ff2052'
 };
 
 export default Colors;

@@ -28,6 +28,10 @@ class ProductDetails extends Component {
     };
   }
 
+  static navigationOptions = {
+    drawerLabel: () => null
+  };
+  
   toggleMenu = () => {
     const { menuOpened } = this.state;
     console.log("menuOpened", menuOpened);
