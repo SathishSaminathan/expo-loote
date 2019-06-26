@@ -10,8 +10,9 @@ import {
   Image,
   ScrollView
 } from "react-native";
+import { Constants } from "expo";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Snackbar } from "react-native-paper";
+import { Snackbar, ProgressBar } from "react-native-paper";
 
 import firebase from "../../config/firebase";
 import StatusBar from "../../components/StatusBar/StatusBar";
@@ -122,7 +123,9 @@ class Profile extends Component {
     super(props);
     this.state = {
       visible: false,
-      ImageURI: null
+      ImageURI: null,
+      storageRef: firebase.storage().ref("user_images"),
+      progress: 0
     };
   }
 
@@ -139,14 +142,52 @@ class Profile extends Component {
     });
   };
 
-  getImageURI = ImageURI => {
-    this.setState({
-      ImageURI: ImageURI
-    });
+  getImageURI = async ImageURI => {
+    const { storageRef } = this.state;
+    const response = await fetch(ImageURI);
+    const blob = await response.blob();
+
+    console.log("blob", blob);
+    if (blob) {
+      const uploadImage = storageRef.child("1").put(blob);
+      uploadImage.on(
+        "state_changed",
+        snapshot => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+
+          this.setState(
+            {
+              progress: parseFloat(progress / 100)
+            },
+            () => console.log(this.state.progress)
+          );
+        },
+        err => {
+          console.log(err);
+        },
+        completed => {
+          storageRef
+            .child("1")
+            .getDownloadURL()
+            .then(url => {
+              console.log(url);
+              this.setState(
+                {
+                  ImageURI,
+                  progress: 0
+                },
+                () => console.log(ImageURI)
+              );
+            });
+        }
+      );
+    }
   };
 
   render() {
-    const { ImageURI } = this.state;
+    const { ImageURI, progress } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
@@ -156,6 +197,22 @@ class Profile extends Component {
           screen={AppConstants.PROFILE}
           title={"Profile"}
         />
+        {progress > 0 && (
+          <ProgressBar
+            animating
+            styleAttr="Horizontal"
+            style={{
+              backgroundColor: Colors.transparent,
+              height: 0,
+              position: "absolute",
+              top: Constants.statusBarHeight + 48,
+              left: 0,
+              right: 0
+            }}
+            progress={progress}
+            color={Colors.secondaryColor}
+          />
+        )}
         <ScrollView contentContainerStyle={{}}>
           <View style={styles.imageArea}>
             <View style={styles.backgroundImage}>
@@ -211,7 +268,10 @@ class Profile extends Component {
           <Divider />
           <View style={styles.savedItemsArea}>
             <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between"
+              }}
             >
               <View style={{ flexDirection: "row" }}>
                 <Text style={{ fontFamily: "Lato-BoldItalic", fontSize: 20 }}>
@@ -219,7 +279,11 @@ class Profile extends Component {
                 </Text>
                 <Feather
                   name="heart"
-                  style={{ fontSize: 20, marginLeft: 10, color: Colors.red }}
+                  style={{
+                    fontSize: 20,
+                    marginLeft: 10,
+                    color: Colors.red
+                  }}
                 />
               </View>
               <View

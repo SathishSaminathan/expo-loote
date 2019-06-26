@@ -5,7 +5,8 @@ const Colors = {
   secondaryColor:'#ffe500',
   white:'#ffffff',
   black:'#111111',
-  red:'#ff2052'
+  red:'#ff2052', 
+  transparent:'transparent'
 };
 
 export default Colors;
