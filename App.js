@@ -14,6 +14,7 @@ import firebase from "./src/config/firebase";
 import AppDrawerContainer from "./src/navigations/AppDrawerNavigator";
 import Login from "./src/screens/auth/Login";
 import LoadingScreen from "./src/screens/LoadingScreen";
+import Profile from "./src/screens/Profile";
 
 export default class App extends Component {
   state = {
@@ -104,6 +105,7 @@ export default class App extends Component {
           backgroundColor={Colors.primaryLightThemeColor}
           showHideTransition="fade"
         /> */}
+        {/* <Profile/> */}
         {isUserLoggedIn ? <AppDrawerContainer /> : <Login />}
       </View>
     );

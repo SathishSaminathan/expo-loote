@@ -18,6 +18,7 @@ import WebViewPage from "../screens/WebViewPage";
 import Login from "../screens/auth/Login";
 import LoadingScreen from "../screens/LoadingScreen";
 import Profile from "../screens/Profile";
+import CameraScreen from "../screens/CameraScreen";
 
 const { width, height } = Dimensions.get("window");
 
@@ -55,7 +56,8 @@ const productStackNavigations = createStackNavigator(
   {
     Home: Home,
     ProductDetails: ProductDetails,
-    WebViewPage: WebViewPage
+    WebViewPage: WebViewPage,
+    CameraScreen: CameraScreen
   },
   {
     initialRouteName: "Home",
@@ -66,7 +68,8 @@ const productStackNavigations = createStackNavigator(
 const ProfileStack = createStackNavigator(
   {
     Profile: Profile,
-    ProductDetails: ProductDetails
+    ProductDetails: ProductDetails,
+    CameraScreen: CameraScreen
   },
   {
     initialRouteName: "Profile",

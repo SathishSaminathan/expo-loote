@@ -22,7 +22,11 @@ class Header extends Component {
             >
               <Feather style={styles.iconStyle} name="menu" />
             </TouchableOpacity>
-            <Image source={Images.logo} style={{ height: 50, width: 50 }} />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.push("CameraScreen")}
+            >
+              <Image source={Images.logo} style={{ height: 50, width: 50 }} />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("Notification")}
             >
@@ -33,8 +37,8 @@ class Header extends Component {
       case AppConstants.NOTIFICATION:
         return (
           <>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Feather style={styles.iconStyle} name="arrow-left" />
+            <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+              <Feather style={styles.iconStyle} name="menu" />
             </TouchableOpacity>
             <Text
               style={{
@@ -71,8 +75,8 @@ class Header extends Component {
       case AppConstants.PROFILE:
         return (
           <>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Feather style={styles.iconStyle} name="arrow-left" />
+            <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+              <Feather style={styles.iconStyle} name="menu" />
             </TouchableOpacity>
             <Text
               style={{

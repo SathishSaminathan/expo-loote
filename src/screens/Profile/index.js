@@ -20,6 +20,7 @@ import Header from "../../components/Header/Header";
 import Colors from "../../constants/ThemeConstants";
 import SavedItems from "../../components/SavedItems/SavedItems";
 import Divider from "../../components/Divider/Divider";
+import ImagePickerComponent from "../../components/ImagePicker/ImagePicker";
 
 const { width, height } = Dimensions.get("window");
 
@@ -120,7 +121,8 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      ImageURI: null
     };
   }
 
@@ -137,7 +139,15 @@ class Profile extends Component {
     });
   };
 
+  getImageURI = ImageURI => {
+    this.setState({
+      ImageURI: ImageURI
+    });
+  };
+
   render() {
+    const { ImageURI } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <StatusBar />
@@ -150,24 +160,35 @@ class Profile extends Component {
           <View style={styles.imageArea}>
             <View style={styles.backgroundImage}>
               <ImageBackground
-                source={{
-                  uri:
-                    "https://images.pexels.com/photos/532220/pexels-photo-532220.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2"
-                }}
+                source={
+                  ImageURI === null
+                    ? {
+                        uri:
+                          "https://images.pexels.com/photos/532220/pexels-photo-532220.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2"
+                      }
+                    : { uri: ImageURI }
+                }
                 style={[styles.img]}
                 resizeMode="cover"
                 blurRadius={10}
               />
             </View>
-            <View style={styles.profileImage}>
-              <Image
-                source={{
-                  uri:
-                    "https://images.pexels.com/photos/532220/pexels-photo-532220.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2"
-                }}
-                style={[styles.img]}
-                resizeMode="cover"
-              />
+            <View>
+              <View style={styles.profileImage}>
+                <Image
+                  source={
+                    ImageURI === null
+                      ? {
+                          uri:
+                            "https://images.pexels.com/photos/532220/pexels-photo-532220.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2"
+                        }
+                      : { uri: ImageURI }
+                  }
+                  style={[styles.img]}
+                  resizeMode="cover"
+                />
+              </View>
+              <ImagePickerComponent getImageURI={this.getImageURI} />
             </View>
           </View>
           <View style={styles.userDetailsArea}>
@@ -225,7 +246,7 @@ class Profile extends Component {
               </View>
             </View>
             <SavedItems
-              showSnack={()=>this.showSnack()}
+              showSnack={() => this.showSnack()}
               {...this.props}
               SavedItemsData={SavedItemsData}
             />
@@ -300,8 +321,8 @@ const styles = StyleSheet.create({
     left: width / 2 - 50,
     // backgroundColor: "yellow",
     borderWidth: 3,
-    borderColor: Colors.white,
-    elevation: 5
+    borderColor: Colors.white
+    // elevation: 5
   },
   img: {
     flex: 1,
