@@ -7,6 +7,7 @@ import {
 } from "react-navigation";
 import { SafeAreaView, ScrollView, Dimensions, View } from "react-native";
 import { Constants } from "expo";
+import { Feather } from "@expo/vector-icons";
 
 import Home from "../screens/Home";
 import Notification from "../screens/Notification";
@@ -16,6 +17,8 @@ import ProductDetails from "../screens/ProductDetails";
 import WebViewPage from "../screens/WebViewPage";
 import Login from "../screens/auth/Login";
 import LoadingScreen from "../screens/LoadingScreen";
+import Profile from "../screens/Profile";
+import CameraScreen from "../screens/CameraScreen";
 
 const { width, height } = Dimensions.get("window");
 
@@ -53,7 +56,8 @@ const productStackNavigations = createStackNavigator(
   {
     Home: Home,
     ProductDetails: ProductDetails,
-    WebViewPage: WebViewPage
+    WebViewPage: WebViewPage,
+    CameraScreen: CameraScreen
   },
   {
     initialRouteName: "Home",
@@ -61,10 +65,50 @@ const productStackNavigations = createStackNavigator(
   }
 );
 
+const ProfileStack = createStackNavigator(
+  {
+    Profile: Profile,
+    ProductDetails: ProductDetails,
+    CameraScreen: CameraScreen
+  },
+  {
+    initialRouteName: "Profile",
+    headerMode: "none"
+  }
+);
+
 const AppDrawerNavigations = createDrawerNavigator(
   {
-    Home: productStackNavigations,
-    Notification: Notification
+    Home: {
+      screen: productStackNavigations,
+      navigationOptions: {
+        // title: "Search Videos",
+        drawerIcon: ({ tintColor }) => (
+          <Feather color={tintColor} name="home" style={{ fontSize: 20 }} />
+        )
+      }
+    },
+    Notification: {
+      screen: Notification,
+      navigationOptions: {
+        // title: "Search Videos",
+        drawerIcon: ({ tintColor }) => (
+          <Feather color={tintColor} name="bell" style={{ fontSize: 20 }} />
+        )
+      }
+    },
+    Profile: {
+      screen: ProfileStack,
+      navigationOptions: {
+        // title: "Search Videos",
+        drawerIcon: ({ tintColor }) => (
+          <Feather color={tintColor} name="user" style={{ fontSize: 20 }} />
+        )
+      }
+    },
+    ProductDetails: {
+      screen: ProductDetails
+    }
   },
   {
     initialRouteName: "Home",

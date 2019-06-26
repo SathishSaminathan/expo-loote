@@ -15,7 +15,11 @@ export default class Notification extends Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar />
-        <Header {...this.props} screen={AppConstants.NOTIFICATION} />
+        <Header
+          {...this.props}
+          screen={AppConstants.NOTIFICATION}
+          title={"Notification"}
+        />
         <Text> Notification </Text>
       </View>
     );

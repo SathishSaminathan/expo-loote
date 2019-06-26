@@ -28,6 +28,10 @@ class ProductDetails extends Component {
     };
   }
 
+  static navigationOptions = {
+    drawerLabel: () => null
+  };
+  
   toggleMenu = () => {
     const { menuOpened } = this.state;
     console.log("menuOpened", menuOpened);
@@ -53,13 +57,18 @@ class ProductDetails extends Component {
     });
 
     const backgroundOpacity = this.animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 0.5]
+      inputRange: [0, 0.8, 1],
+      outputRange: [0, 0, 0.5]
     });
 
     const menuOpacity = this.animatedValue.interpolate({
       inputRange: [0, 0.6, 1],
       outputRange: [0, 0, 1]
+    });
+
+    const backgroundZIndex = this.animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [-1, 1]
     });
 
     return (
@@ -85,7 +94,7 @@ class ProductDetails extends Component {
             zIndex: 3
           }}
         >
-          <TouchableOpacity onPress={()=>this.props.navigation.pop()}>
+          <TouchableOpacity onPress={() => this.props.navigation.pop()}>
             <Feather style={styles.iconStyle} name="arrow-left" />
           </TouchableOpacity>
           <Text
@@ -151,9 +160,9 @@ class ProductDetails extends Component {
               bottom: 0,
               height: height - 80,
               width: width,
-              opacity: backgroundOpacity
-            },
-            menuOpened ? { zIndex: 1 } : { zIndex: -1 }
+              opacity: backgroundOpacity,
+              zIndex: backgroundZIndex
+            }
           ]}
         >
           <TouchableOpacity
@@ -244,6 +253,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: Colors.black,
     paddingHorizontal: 10,
-    fontFamily: "Lato-Regular",
+    fontFamily: "Lato-Regular"
   }
 });
