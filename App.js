@@ -9,20 +9,23 @@
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import { Constants, Font, Permissions, Notifications } from "expo";
+import { Provider } from "react-redux";
 
 import firebase from "./src/config/firebase";
 import AppDrawerContainer from "./src/navigations/AppDrawerNavigator";
 import Login from "./src/screens/auth/Login";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import Profile from "./src/screens/Profile";
+import store from "./src/store";
 
-export default class App extends Component {
+class App extends Component {
   state = {
     isUserLoggedIn: null
   };
   componentDidMount() {
     this.loadFonts();
-  }t
+  }
+  t;
 
   loadFonts = async () => {
     await Font.loadAsync({
@@ -106,15 +109,23 @@ export default class App extends Component {
           showHideTransition="fade"
         /> */}
         {/* <Profile/> */}
-        {isUserLoggedIn ? <AppDrawerContainer /> : <Login />}
+
+        {isUserLoggedIn ? (
+          <Provider store={store}>
+            <AppDrawerContainer />
+          </Provider>
+        ) : (
+          <Login />
+        )}
       </View>
     );
   }
 }
 
+export default App;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1
-    // backgroundColor: Colors.primaryThemeColor
   }
 });
