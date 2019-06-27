@@ -1,8 +1,17 @@
-import { ADD_USER } from "./actionTypes";
+import { ADD_USER, UPDATE_USER } from "./actionTypes";
 
-export const serUser = user => {
+export const setUser = user => {
   return {
     type: ADD_USER,
+    payload: {
+      current_user: user
+    }
+  };
+};
+
+export const updateUser = user => {
+  return {
+    type: UPDATE_USER,
     payload: {
       current_user: user
     }

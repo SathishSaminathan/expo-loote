@@ -20,12 +20,17 @@ import store from "./src/store";
 
 class App extends Component {
   state = {
-    isUserLoggedIn: null
+    isUserLoggedIn: null,
+    isFontLoaded: false,
+    user: null
   };
+
+  componentWillMount() {
+    this.loadFonts();
+  }
   componentDidMount() {
     this.loadFonts();
   }
-  t;
 
   loadFonts = async () => {
     await Font.loadAsync({
@@ -34,7 +39,12 @@ class App extends Component {
       "Lato-Italic": require("./src/assets/fonts/Lato/Lato-Italic.ttf"),
       "Lato-BoldItalic": require("./src/assets/fonts/Lato/Lato-BoldItalic.ttf")
     });
-    this.checkIfUserLogggedIn();
+    this.setState(
+      {
+        isFontLoaded: true
+      },
+      () => this.checkIfUserLogggedIn(this.state.user, "this")
+    );
   };
 
   registerForPushNotificationAsync = async user => {
@@ -76,15 +86,16 @@ class App extends Component {
     this.registerForPushNotificationAsync(user);
   };
 
-  checkIfUserLogggedIn() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
+  checkIfUserLogggedIn = (user, status) => {
+    this.setState({ status, user });
+    if (this.state.isFontLoaded && this.state.status === "checked") {
+      if (this.state.user) {
         console.log("user ");
         this.setState(
           {
             isUserLoggedIn: true
           },
-          () => this.updatePushTokenForUser(user)
+          () => this.updatePushTokenForUser(this.state.user)
         );
       } else {
         console.log("no user !!! :");
@@ -92,14 +103,18 @@ class App extends Component {
           isUserLoggedIn: false
         });
       }
-    });
-  }
+    }
+  };
 
   render() {
     const { isUserLoggedIn } = this.state;
 
     if (isUserLoggedIn == null) {
-      return <LoadingScreen />;
+      return (
+        <Provider store={store}>
+          <LoadingScreen userLoaded={this.checkIfUserLogggedIn} />
+        </Provider>
+      );
     }
 
     return (
@@ -110,13 +125,9 @@ class App extends Component {
         /> */}
         {/* <Profile/> */}
 
-        {isUserLoggedIn ? (
-          <Provider store={store}>
-            <AppDrawerContainer />
-          </Provider>
-        ) : (
-          <Login />
-        )}
+        <Provider store={store}>
+          {isUserLoggedIn ? <AppDrawerContainer /> : <Login />}
+        </Provider>
       </View>
     );
   }

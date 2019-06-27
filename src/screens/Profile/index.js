@@ -13,6 +13,7 @@ import {
 import { Constants } from "expo";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Snackbar, ProgressBar } from "react-native-paper";
+import { connect } from "react-redux";
 
 import firebase from "../../config/firebase";
 import StatusBar from "../../components/StatusBar/StatusBar";
@@ -22,6 +23,7 @@ import Colors from "../../constants/ThemeConstants";
 import SavedItems from "../../components/SavedItems/SavedItems";
 import Divider from "../../components/Divider/Divider";
 import ImagePickerComponent from "../../components/ImagePicker/ImagePicker";
+import { setUser, updateUser } from "../../store/actions";
 
 const { width, height } = Dimensions.get("window");
 
@@ -125,7 +127,8 @@ class Profile extends Component {
       visible: false,
       ImageURI: null,
       storageRef: firebase.storage().ref("user_images"),
-      progress: 0
+      progress: 0,
+      user: this.props.user
     };
   }
 
@@ -173,6 +176,17 @@ class Profile extends Component {
             .getDownloadURL()
             .then(url => {
               console.log(url);
+              let user = { ...this.state.user, profile_picture: url };
+              console.log("current user", firebase.auth().currentUser);
+              firebase
+                .auth()
+                .currentUser.updateProfile({
+                  photoURL: url
+                })
+                .then(() => {
+                  console.log("profile updated successfully");
+                });
+              this.props.updateUser(user);
               this.setState(
                 {
                   ImageURI,
@@ -217,14 +231,9 @@ class Profile extends Component {
           <View style={styles.imageArea}>
             <View style={styles.backgroundImage}>
               <ImageBackground
-                source={
-                  ImageURI === null
-                    ? {
-                        uri:
-                          "https://images.pexels.com/photos/532220/pexels-photo-532220.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2"
-                      }
-                    : { uri: ImageURI }
-                }
+                source={{
+                  uri: this.props.user.profile_picture
+                }}
                 style={[styles.img]}
                 resizeMode="cover"
                 blurRadius={10}
@@ -233,14 +242,9 @@ class Profile extends Component {
             <View>
               <View style={styles.profileImage}>
                 <Image
-                  source={
-                    ImageURI === null
-                      ? {
-                          uri:
-                            "https://images.pexels.com/photos/532220/pexels-photo-532220.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2"
-                        }
-                      : { uri: ImageURI }
-                  }
+                  source={{
+                    uri: this.props.user.profile_picture
+                  }}
                   style={[styles.img]}
                   resizeMode="cover"
                 />
@@ -261,7 +265,7 @@ class Profile extends Component {
                   paddingLeft: 10
                 }}
               >
-                Sathish Saminathan
+                {this.props.user.displayName}
               </Text>
             </View>
           </View>
@@ -363,7 +367,22 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = ({ user }) => {
+  return {
+    user: user.current_user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateUser: user => dispatch(updateUser(user))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);
 
 const styles = StyleSheet.create({
   imageArea: {

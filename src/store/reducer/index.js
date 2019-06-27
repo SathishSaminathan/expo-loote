@@ -12,6 +12,11 @@ const user_reducer = (state = initalState, action) => {
         ...state,
         current_user: action.payload.current_user
       };
+    case actionTypes.UPDATE_USER:
+      return {
+        ...state,
+        current_user: action.payload.current_user
+      };
     default:
       return state;
   }
