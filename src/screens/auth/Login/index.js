@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
+import { connect } from "react-redux";
 import * as Expo from "expo";
 import { Feather } from "@expo/vector-icons";
 
@@ -16,6 +17,7 @@ import AppConstants from "../../../constants/AppConstants";
 import Colors from "../../../constants/ThemeConstants";
 import Images from "../../../assets/images/images";
 import Loader from "../../../components/Loader/Loader";
+import { setUser } from "../../../store/actions";
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,7 +34,7 @@ class Login extends Component {
   }
 
   onSignIn = googleUser => {
-    console.log("Google Auth Response", googleUser);
+    // console.log("Google Auth Response", googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     var unsubscribe = firebase.auth().onAuthStateChanged(
       function(firebaseUser) {
@@ -50,31 +52,40 @@ class Login extends Component {
             .signInWithCredential(credential)
             .then(res => {
               // console.log("user sign in");
+              let user = {
+                gmail: res.user.email,
+                profile_picture: res.additionalUserInfo.profile.picture,
+                locale: res.additionalUserInfo.profile.locale,
+                first_name: res.additionalUserInfo.profile.given_name,
+                last_name: res.additionalUserInfo.profile.family_name,
+                uid: res.user.uid,
+                displayName:res.user.displayName,
+                created_at: Date.now()
+              };
               console.log("result.....", res);
               if (res.additionalUserInfo.isNewUser) {
                 firebase
                   .database()
                   .ref("/users/" + res.user.uid)
-                  .set({
-                    gmail: res.user.email,
-                    profile_picture: res.additionalUserInfo.profile.picture,
-                    locale: res.additionalUserInfo.profile.locale,
-                    first_name: res.additionalUserInfo.profile.given_name,
-                    last_name: res.additionalUserInfo.profile.family_name,
-                    created_at: Date.now()
-                  })
+                  .set(user)
                   .then(() => {
                     console.log("user created!!!");
+                    this.props.createUser(user);
                   })
                   .catch(err => {
                     console.log(err);
                   });
               } else {
+                let tempUser = { ...user, last_loggedIn: Date.now() };
                 firebase
                   .database()
                   .ref("/users/" + res.user.uid)
                   .update({
                     last_loggedIn: Date.now()
+                  })
+                  .then(() => {
+                    this.props.createUser(tempUser);
+                    console.log("loggedin updated");
                   });
               }
             })
@@ -233,7 +244,17 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createUser: user => dispatch(setUser(user))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);
 
 const styles = StyleSheet.create({
   welcomeTextArea: {
