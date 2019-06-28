@@ -21,7 +21,6 @@ class LoadingScreen extends Component {
           profile_picture: user.photoURL,
           uid: user.uid,
           displayName: user.displayName,
-          created_at: Date.now()
         };
         console.log("user ");
         this.props.userLoaded(userData, 'checked');

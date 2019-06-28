@@ -17,6 +17,7 @@ import Login from "./src/screens/auth/Login";
 import LoadingScreen from "./src/screens/LoadingScreen";
 import Profile from "./src/screens/Profile";
 import store from "./src/store";
+import Dummy from "./src/screens/DummyScreen";
 
 class App extends Component {
   state = {
@@ -107,7 +108,7 @@ class App extends Component {
   };
 
   render() {
-    const { isUserLoggedIn } = this.state;
+    const { isUserLoggedIn, user } = this.state;
 
     if (isUserLoggedIn == null) {
       return (
@@ -126,7 +127,7 @@ class App extends Component {
         {/* <Profile/> */}
 
         <Provider store={store}>
-          {isUserLoggedIn ? <AppDrawerContainer /> : <Login />}
+          {isUserLoggedIn ? <Dummy/> : <Login />}
         </Provider>
       </View>
     );
