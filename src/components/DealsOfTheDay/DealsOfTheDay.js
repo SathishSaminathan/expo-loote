@@ -11,6 +11,7 @@ import { LinearGradient, WebBrowser } from "expo";
 import { Feather } from "@expo/vector-icons";
 
 import Colors from "../../constants/ThemeConstants";
+import ShareComponent from "../ShareComponent";
 
 const { width, height } = Dimensions.get("window");
 const PRODUCT_CARD_WIDTH = width / 2 - 18;
@@ -52,28 +53,10 @@ const DealsOfTheDayData = [
 ];
 
 class DealsOfTheDay extends Component {
-  constructor(props) {
-    super(props);
-  }
+  _shareComponent = new ShareComponent();
 
-  onShare = async link => {
-    try {
-      const result = await Share.share({
-        message: link
-      });
-
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
+  onShare = link => {
+    this._shareComponent.shareFuntion(link);
   };
 
   dealsOfTheDayProduct = () => {
@@ -83,7 +66,7 @@ class DealsOfTheDay extends Component {
         <TouchableOpacity
           activeOpacity={1}
           // onPress={() => WebBrowser.openBrowserAsync(data.link)}
-          onPress={()=>this.props.navigation.push('ProductDetails')}
+          onPress={() => this.props.navigation.push("ProductDetails")}
           style={{
             width: PRODUCT_CARD_WIDTH,
             height: PRODUCT_CARD_HEIGHT,

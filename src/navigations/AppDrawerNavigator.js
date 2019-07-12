@@ -5,7 +5,15 @@ import {
   createAppContainer,
   createStackNavigator
 } from "react-navigation";
-import { SafeAreaView, ScrollView, Dimensions, View } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  Dimensions,
+  View,
+  Image,
+  Text
+} from "react-native";
+import { connect } from "react-redux";
 import { Constants } from "expo";
 import { Feather } from "@expo/vector-icons";
 
@@ -19,38 +27,65 @@ import Login from "../screens/auth/Login";
 import LoadingScreen from "../screens/LoadingScreen";
 import Profile from "../screens/Profile";
 import CameraScreen from "../screens/CameraScreen";
+import Images from "../assets/images/images";
 
 const { width, height } = Dimensions.get("window");
 
-const CustomDrawerItems = props => (
-  <SafeAreaView
-    style={{
-      flex: 1
-    }}
-  >
-    <StatusBar />
-    <View
+const CustomDrawerItems = props => {
+  return (
+    <SafeAreaView
       style={{
-        height: 150,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: Colors.primaryThemeColor
+        flex: 1
       }}
     >
-      {/* <Image
-        source={Images.drawerImage}
-        resizeMode="cover"
+      <StatusBar />
+      <View
         style={{
-          width: 200,
-          height: 200
+          height: 150,
+          justifyContent: "center",
+          backgroundColor: Colors.primaryThemeColor
         }}
-      /> */}
-    </View>
-    <ScrollView>
-      <DrawerItems {...props} />
-    </ScrollView>
-  </SafeAreaView>
-);
+      >
+        <View
+          style={{
+            padding: 10,
+            paddingHorizontal: 15
+          }}
+        >
+          <View
+            style={{
+              width: 60,
+              height: 60,
+              borderRadius: 30,
+              overflow: "hidden"
+            }}
+          >
+            <Image
+              source={{
+                uri: props.screenProps && props.screenProps.profile_picture
+              }}
+              resizeMode="cover"
+              style={{ flex: 1, width: null, height: null }}
+            />
+          </View>
+          <View style={{ paddingTop: 10 }}>
+            <Text style={{ color: Colors.white, fontSize: 15 }}>
+              {props.screenProps && props.screenProps.displayName}
+            </Text>
+          </View>
+          <View>
+            <Text style={{ color: Colors.white, fontSize: 12 }}>
+              {props.screenProps && props.screenProps.gmail}
+            </Text>
+          </View>
+        </View>
+      </View>
+      <ScrollView>
+        <DrawerItems {...props} />
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
 const productStackNavigations = createStackNavigator(
   {
@@ -134,8 +169,17 @@ const stackNavigations = createStackNavigator(
   }
 );
 
+const mapStateToProps = ({ user }) => {
+  return {
+    user: user.current_user
+  };
+};
+
 const RootStackContainer = createAppContainer(stackNavigations);
 
 const AppDrawerContainer = createAppContainer(AppDrawerNavigations);
 
-export default AppDrawerContainer;
+export default connect(
+  mapStateToProps,
+  null
+)(AppDrawerContainer);

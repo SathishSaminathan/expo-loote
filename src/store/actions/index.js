@@ -1,4 +1,4 @@
-import { ADD_USER, UPDATE_USER } from "./actionTypes";
+import { ADD_USER, UPDATE_USER, REMOVE_USER } from "./actionTypes";
 
 export const setUser = user => {
   return {
@@ -15,5 +15,11 @@ export const updateUser = user => {
     payload: {
       current_user: user
     }
+  };
+};
+
+export const removeUser = () => {
+  return {
+    type: REMOVE_USER
   };
 };

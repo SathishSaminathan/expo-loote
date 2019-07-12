@@ -7,31 +7,42 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  WebView
+  WebView, Linking
 } from "react-native";
 import { Constants, WebBrowser } from "expo";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 
-import AppConstants from "../../constants/AppConstants";
 import Colors from "../../constants/ThemeConstants";
+import ShareComponent from "../../components/ShareComponent";
 
 const { width, height } = Dimensions.get("window");
 
 const HEADER_HEIGHT = 60;
 
 class ProductDetails extends Component {
+  _shareComponent = new ShareComponent();
   constructor(props) {
     super(props);
     this.animatedValue = new Animated.Value(0);
     this.state = {
-      menuOpened: false
+      menuOpened: false,
+      isLiked: true
     };
   }
+
+  onShare = link => {
+    this._shareComponent.shareFuntion(link);
+  };
+
+  handleLike = () => {
+    this.setState(prevState => ({ isLiked: !prevState.isLiked }));
+    console.log(this.state.isLiked);
+  };
 
   static navigationOptions = {
     drawerLabel: () => null
   };
-  
+
   toggleMenu = () => {
     const { menuOpened } = this.state;
     console.log("menuOpened", menuOpened);
@@ -133,23 +144,33 @@ class ProductDetails extends Component {
             }
           ]}
         >
-          <TouchableOpacity activeOpacity={1} style={styles.menuButtons}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.menuButtons}
+            onPress={() => this.onShare("https://amzn.to/2INiHU2")}
+          >
             <View style={styles.itemStyles}>
               <Feather
                 name="share-2"
                 style={{ fontSize: 25, color: Colors.primaryThemeColor }}
               />
-              <Text>Share</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={1} style={styles.menuButtons}>
-            <View style={styles.itemStyles}>
-              <Feather
+            <TouchableOpacity
+              style={styles.itemStyles}
+              onPress={this.handleLike}
+            >
+              <FontAwesome
                 name="heart"
-                style={{ fontSize: 25, color: Colors.primaryThemeColor }}
+                style={[
+                  { fontSize: 25 },
+                  this.state.isLiked
+                    ? { color: Colors.like }
+                    : { color: Colors.grey }
+                ]}
               />
-              <Text>Save</Text>
-            </View>
+            </TouchableOpacity>
           </TouchableOpacity>
         </Animated.View>
         <Animated.View
@@ -216,7 +237,8 @@ class ProductDetails extends Component {
               borderRadius: 20,
               marginHorizontal: 10
             }}
-            onPress={() => this.props.navigation.push("WebViewPage")}
+            // onPress={() => this.props.navigation.push("WebViewPage")}
+            onPress={()=> WebBrowser.openBrowserAsync('https://amzn.to/2INiHU2')}
           >
             <Text
               style={{ color: Colors.white, fontSize: 20, textAlign: "center" }}
@@ -228,7 +250,7 @@ class ProductDetails extends Component {
       </View>
     );
   }
-}
+} 
 
 export default ProductDetails;
 
@@ -243,7 +265,8 @@ const styles = StyleSheet.create({
   itemStyles: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    overflow: "hidden"
   },
   iconStyle: {
     color: Colors.white,
