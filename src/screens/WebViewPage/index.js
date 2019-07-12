@@ -13,7 +13,7 @@ export default class WebViewPage extends Component {
   }
 
   render() {
-    const url = "https://amzn.to/2RwDtvg";
+    const url = "https://www.amazon.in/gp/product/B07QCS73JZ/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=sktech07c-21&linkId=385a64fa165d0ab79d47c59e36783fc0&language=en_IN";
     const { loading } = this.state;
     return (
       <View style={{ flex: 1 }}>

@@ -23,7 +23,7 @@ import Colors from "../../constants/ThemeConstants";
 import SavedItems from "../../components/SavedItems/SavedItems";
 import Divider from "../../components/Divider/Divider";
 import ImagePickerComponent from "../../components/ImagePicker/ImagePicker";
-import { setUser, updateUser } from "../../store/actions";
+import { setUser, updateUser, removeUser } from "../../store/actions";
 
 const { width, height } = Dimensions.get("window");
 
@@ -136,7 +136,10 @@ class Profile extends Component {
     firebase
       .auth()
       .signOut()
-      .then(() => console.log("signed out!!!"));
+      .then(() => {
+        console.log("signed out!!!");
+        // this.props.removeUser();
+      });
   };
 
   showSnack = () => {
@@ -375,7 +378,8 @@ const mapStateToProps = ({ user }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateUser: user => dispatch(updateUser(user))
+    updateUser: user => dispatch(updateUser(user)),
+    removeUser: () => dispatch(removeUser())
   };
 };
 

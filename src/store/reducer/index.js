@@ -17,6 +17,12 @@ const user_reducer = (state = initalState, action) => {
         ...state,
         current_user: action.payload.current_user
       };
+    case actionTypes.REMOVE_USER:
+      debugger
+      return {
+        ...state,
+        current_user: null
+      };
     default:
       return state;
   }
