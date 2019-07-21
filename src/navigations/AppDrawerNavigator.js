@@ -28,6 +28,7 @@ import LoadingScreen from "../screens/LoadingScreen";
 import Profile from "../screens/Profile";
 import CameraScreen from "../screens/CameraScreen";
 import Images from "../assets/images/images";
+import Wishlist from "../screens/Wishlist";
 
 const { width, height } = Dimensions.get("window");
 
@@ -112,6 +113,16 @@ const ProfileStack = createStackNavigator(
   }
 );
 
+const WishListStack = createStackNavigator(
+  {
+    WishList: Wishlist,
+    ProductDetails: ProductDetails
+  },
+  {
+    initialRouteName: "WishList",
+    headerMode: "none"
+  }
+);
 const AppDrawerNavigations = createDrawerNavigator(
   {
     Home: {
@@ -143,6 +154,14 @@ const AppDrawerNavigations = createDrawerNavigator(
     },
     ProductDetails: {
       screen: ProductDetails
+    },
+    WishList: {
+      screen: WishListStack,
+      navigationOptions: {
+        drawerIcon: ({ tintColor }) => (
+          <Feather color={tintColor} name="heart" style={{ fontSize: 20 }} />
+        )
+      }
     }
   },
   {
