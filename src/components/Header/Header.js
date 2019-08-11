@@ -34,10 +34,12 @@ class Header extends Component {
             </TouchableOpacity>
           </>
         );
-      case AppConstants.NOTIFICATION:
+      case AppConstants.WISHLIST:
         return (
           <>
-            <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.openDrawer()}
+            >
               <Feather style={styles.iconStyle} name="menu" />
             </TouchableOpacity>
             <Text
@@ -49,7 +51,27 @@ class Header extends Component {
             >
               {title}
             </Text>
-            <View />
+            <View style={{ width: 25, height: 25 }} />
+          </>
+        );
+      case AppConstants.NOTIFICATION:
+        return (
+          <>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.openDrawer()}
+            >
+              <Feather style={styles.iconStyle} name="menu" />
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.secondaryColor,
+                // fontFamily: "Lato-BoldItalic",
+                fontSize: 20
+              }}
+            >
+              {title}
+            </Text>
+            <View style={{ width: 25, height: 25 }} />
           </>
         );
       case AppConstants.PRODUCTDETAILS:
@@ -75,7 +97,9 @@ class Header extends Component {
       case AppConstants.PROFILE:
         return (
           <>
-            <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.openDrawer()}
+            >
               <Feather style={styles.iconStyle} name="menu" />
             </TouchableOpacity>
             <Text
@@ -87,7 +111,7 @@ class Header extends Component {
             >
               {title}
             </Text>
-            <View />
+            <View style={{ width: 25, height: 25 }} />
           </>
         );
     }
@@ -110,7 +134,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    elevation: 10
   },
   iconStyle: {
     color: Colors.white,
