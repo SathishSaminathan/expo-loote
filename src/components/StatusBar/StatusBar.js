@@ -15,7 +15,7 @@ export default class StatusBar extends Component {
       <View
         style={{
           height: Constants.statusBarHeight,
-          backgroundColor: Colors.primaryDarkThemeColor
+          backgroundColor: Colors.primaryDarkThemeColor,
         }}
       />
     );

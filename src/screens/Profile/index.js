@@ -230,7 +230,7 @@ class Profile extends Component {
             color={Colors.secondaryColor}
           />
         )}
-        <ScrollView contentContainerStyle={{}}>
+        <ScrollView contentContainerStyle={{ flex: 1 }}>
           <View style={styles.imageArea}>
             <View style={styles.backgroundImage}>
               <ImageBackground
@@ -273,7 +273,7 @@ class Profile extends Component {
             </View>
           </View>
           <Divider />
-          <View style={styles.savedItemsArea}>
+          {/* <View style={styles.savedItemsArea}>
             <View
               style={{
                 flexDirection: "row",
@@ -321,7 +321,7 @@ class Profile extends Component {
               {...this.props}
               SavedItemsData={SavedItemsData}
             />
-          </View>
+          </View> */}
           <TouchableOpacity
             onPress={() => this.handleSignOut()}
             style={{
@@ -330,7 +330,9 @@ class Profile extends Component {
               backgroundColor: Colors.primaryThemeColor,
               alignItems: "center",
               justifyContent: "center",
-              flexDirection: "row"
+              flexDirection: "row",
+              position: "absolute",
+              bottom: 0
             }}
           >
             <Text
