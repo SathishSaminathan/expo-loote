@@ -18,6 +18,7 @@ import { Snackbar } from "react-native-paper";
 import Button from "../../components/shared/Button";
 import AppConstants from "../../constants/AppConstants";
 import Header from "../../components/Header/Header";
+import PriceTag from "../../components/shared/PriceTag";
 
 const { width, height } = Dimensions.get("window");
 
@@ -186,18 +187,7 @@ class Wishlist extends Component {
                 </Text>
               </View>
               <View style={styles.priceArea}>
-                <Text>
-                  {item.price}
-                  <Text
-                    style={{
-                      fontSize: 8,
-                      color: Colors.like,
-                      paddingBottom: 2
-                    }}
-                  >
-                    at the time of upload
-                  </Text>
-                </Text>
+                <PriceTag price={item.price}/>
               </View>
               <View style={styles.buyNowArea}>
                 <Button link={item.link} />

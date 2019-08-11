@@ -12,6 +12,7 @@ import { Feather } from "@expo/vector-icons";
 
 import Colors from "../../constants/ThemeConstants";
 import ShareComponent from "../ShareComponent";
+import PriceTag from "../shared/PriceTag";
 
 const { width, height } = Dimensions.get("window");
 const PRODUCT_CARD_WIDTH = width / 2 - 18;
@@ -84,24 +85,49 @@ class DealsOfTheDay extends Component {
               position: "relative"
             }}
           >
-            <TouchableOpacity
-              onPress={() => this.onShare(data.link)}
-              style={{ alignSelf: "flex-end" }}
+            <View
+              style={{
+                justifyContent: "space-between",
+                flexDirection: "row",
+                alignItems: "flex-start"
+              }}
             >
-              <Feather
+              <Text
                 style={{
-                  color: Colors.primaryDarkThemeColor,
-                  fontSize: 20
+                  color: Colors.white,
+                  paddingVertical: 3,
+                  paddingHorizontal: 5,
+                  borderRadius: 10,
+                  fontSize: 7,
+                  backgroundColor: Colors.primaryDarkThemeColor
                 }}
-                name="share-2"
-              />
-            </TouchableOpacity>
+              >
+                Amazon
+              </Text>
+              <TouchableOpacity onPress={() => this.onShare(data.link)}>
+                <Feather
+                  style={{
+                    color: Colors.primaryDarkThemeColor,
+                    fontSize: 20
+                  }}
+                  name="share-2"
+                />
+              </TouchableOpacity>
+            </View>
             <Image
               source={{ uri: data.image }}
               style={{ flex: 1, width: null, height: null }}
               resizeMode="cover"
             />
-            <Text numberOfLines={2}>{data.name}</Text>
+            <View>
+              <Text
+                style={{ color: Colors.grey, paddingBottom: 4 }}
+                numberOfLines={2}
+              >
+                {data.name}
+              </Text>
+              <PriceTag price={data.price} />
+            </View>
           </View>
         </TouchableOpacity>
       );
