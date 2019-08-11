@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { Constants } from "expo";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 
 import Home from "../screens/Home";
 import Notification from "../screens/Notification";
@@ -29,6 +29,7 @@ import Profile from "../screens/Profile";
 import CameraScreen from "../screens/CameraScreen";
 import Images from "../assets/images/images";
 import Wishlist from "../screens/Wishlist";
+import GadgetsUnder100 from "../components/GadgetsUnder100";
 
 const { width, height } = Dimensions.get("window");
 
@@ -155,17 +156,29 @@ const AppDrawerNavigations = createDrawerNavigator(
     ProductDetails: {
       screen: ProductDetails
     },
-    WishList: {
+    Wishlist: {
       screen: WishListStack,
       navigationOptions: {
         drawerIcon: ({ tintColor }) => (
           <Feather color={tintColor} name="heart" style={{ fontSize: 20 }} />
         )
       }
+    },
+    "Gadgets Under 100": {
+      screen: GadgetsUnder100,
+      navigationOptions: {
+        drawerIcon: ({ tintColor }) => (
+          <FontAwesome
+            color={tintColor}
+            name="rupee"
+            style={{ fontSize: 20 }}
+          />
+        )
+      }
     }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Gadgets Under 100",
     contentComponent: CustomDrawerItems,
     contentOptions: {
       activeTintColor: Colors.primaryThemeColor,

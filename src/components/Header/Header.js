@@ -54,6 +54,26 @@ class Header extends Component {
             <View style={{ width: 25, height: 25 }} />
           </>
         );
+      case AppConstants.GADGETS_UNDER_100:
+        return (
+          <>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.openDrawer()}
+            >
+              <Feather style={styles.iconStyle} name="menu" />
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.secondaryColor,
+                // fontFamily: "Lato-BoldItalic",
+                fontSize: 20
+              }}
+            >
+              {screen}
+            </Text>
+            <View style={{ width: 25, height: 25 }} />
+          </>
+        );
       case AppConstants.NOTIFICATION:
         return (
           <>

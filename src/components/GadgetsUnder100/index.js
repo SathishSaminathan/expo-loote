@@ -2,22 +2,69 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
+  ScrollView,
   Dimensions,
+  TouchableOpacity,
   Image,
-  Share
+  RefreshControl
 } from "react-native";
-import { LinearGradient, WebBrowser } from "expo";
+import { LinearGradient, Constants } from "expo";
 import { Feather } from "@expo/vector-icons";
 
+import StatusBar from "../StatusBar/StatusBar";
 import Colors from "../../constants/ThemeConstants";
+
+import ShareComponent from "../ShareComponent";
+import AppConstants from "../../constants/AppConstants";
+import Header from "../Header/Header";
 import PriceTag from "../shared/PriceTag";
 
 const { width, height } = Dimensions.get("window");
-const PRODUCT_CARD_WIDTH = width / 2 - 18;
+
+const PRODUCT_CARD_WIDTH = width / 2 - 30;
 const PRODUCT_CARD_HEIGHT = 200;
 
-const PickedForYouData = [
+const DealsOfTheDayData = [
+  {
+    image:
+      "https://images-na.ssl-images-amazon.com/images/I/71yomw7uPmL._SX679_.jpg",
+    name:
+      "Tamatina Pub G Laptop Skins for 15.6 inch Laptop - HD Quality - Dell-Lenovo-HP-Acer - LP1",
+    link: "https://amzn.to/2INiHU2",
+    price: "₹ 249.00"
+  },
+  {
+    image:
+      "https://images-na.ssl-images-amazon.com/images/I/71yomw7uPmL._SX679_.jpg",
+    name:
+      "Tamatina Pub G Laptop Skins for 15.6 inch Laptop - HD Quality - Dell-Lenovo-HP-Acer - LP1",
+    link: "https://amzn.to/2INiHU2",
+    price: "₹ 249.00"
+  },
+  {
+    image:
+      "https://images-na.ssl-images-amazon.com/images/I/71yomw7uPmL._SX679_.jpg",
+    name:
+      "Tamatina Pub G Laptop Skins for 15.6 inch Laptop - HD Quality - Dell-Lenovo-HP-Acer - LP1",
+    link: "https://amzn.to/2INiHU2",
+    price: "₹ 249.00"
+  },
+  {
+    image:
+      "https://images-na.ssl-images-amazon.com/images/I/71yomw7uPmL._SX679_.jpg",
+    name:
+      "Tamatina Pub G Laptop Skins for 15.6 inch Laptop - HD Quality - Dell-Lenovo-HP-Acer - LP1",
+    link: "https://amzn.to/2INiHU2",
+    price: "₹ 249.00"
+  },
+  {
+    image:
+      "https://images-na.ssl-images-amazon.com/images/I/71yomw7uPmL._SX679_.jpg",
+    name:
+      "Tamatina Pub G Laptop Skins for 15.6 inch Laptop - HD Quality - Dell-Lenovo-HP-Acer - LP1",
+    link: "https://amzn.to/2INiHU2",
+    price: "₹ 249.00"
+  },
   {
     image:
       "https://images-na.ssl-images-amazon.com/images/I/71yomw7uPmL._SX679_.jpg",
@@ -52,41 +99,31 @@ const PickedForYouData = [
   }
 ];
 
-class PickedForYou extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+export default class GadgetsUnder100 extends Component {
+  _shareComponent = new ShareComponent();
 
-  onShare = async link => {
-    try {
-      const result = await Share.share({
-        message: link
-      });
-
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
+  state = {
+    refreshing: false
   };
 
-  pickedForYouProduct = () => {
-    let productTemplate = [];
+  onShare = link => {
+    this._shareComponent.shareFuntion(link);
+  };
 
-    PickedForYouData.map((data, i) => {
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+    }, 5000);
+  };
+
+  renderProducts = () => {
+    let productTemplate = [];
+    DealsOfTheDayData.map((data, i) => {
       productTemplate.push(
         <TouchableOpacity
           activeOpacity={1}
-          // onPress={() => WebBrowser.openBrowserAsync(data.link)}
-          onPress={() => this.props.navigation.push("ProductDetails")}
+          //   onPress={() => this.props.navigation.push("ProductDetails")}
           style={{
             width: PRODUCT_CARD_WIDTH,
             height: PRODUCT_CARD_HEIGHT,
@@ -100,7 +137,8 @@ class PickedForYou extends Component {
           <View
             style={{
               width: "100%",
-              height: "95%"
+              height: "95%",
+              position: "relative"
             }}
           >
             <View
@@ -155,64 +193,53 @@ class PickedForYou extends Component {
   };
 
   render() {
-    const { fontLoaded } = this.props;
-
     return (
-      <>
+      <View
+        style={{
+          flex: 1
+        }}
+      >
+        <StatusBar />
+        <Header {...this.props} screen={AppConstants.GADGETS_UNDER_100} />
         <View
-          style={{
-            padding: 10,
-            alignItems: "center"
-          }}
-        >
-          {fontLoaded && (
-            <Text
-              style={{
-                fontSize: 20,
-                fontFamily: "Lato-BoldItalic",
-                textDecorationLine: "underline"
-              }}
-            >
-              Picked For You
-            </Text>
-          )}
-        </View>
-        <View
-          style={{
-            margin: 5
-          }}
+          style={{ padding: 10, paddingBottom: Constants.statusBarHeight * 4 }}
         >
           <LinearGradient
             start={{ x: 0, y: 0.75 }}
             end={{ x: 1, y: 0.25 }}
-            colors={[
-              Colors.primaryThemeColor,
-              Colors.primaryThemeColor,
-              Colors.primaryThemeColor,
-              Colors.secondaryColor,
-              Colors.secondaryColor
-            ]}
+            colors={["#f74e7f", "#f74e7f", "#f74e7f", "#f87b48", "#f87b48"]}
             style={{
               borderRadius: 10,
               elevation: 10,
-              paddingHorizontal: 10,
-              paddingBottom: 10
+              paddingHorizontal: 10
             }}
           >
-            <View
-              style={{
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                paddingVertical: 10,
+                paddingHorizontal: 5,
                 flexDirection: "row",
                 flexWrap: "wrap",
                 justifyContent: "space-between"
               }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh}
+                  colors={[
+                    Colors.primaryDarkThemeColor,
+                    Colors.secondaryColor,
+                    Colors.like
+                  ]}
+                />
+              }
             >
-              {fontLoaded && this.pickedForYouProduct()}
-            </View>
+              {this.renderProducts()}
+            </ScrollView>
           </LinearGradient>
         </View>
-      </>
+      </View>
     );
   }
 }
-
-export default PickedForYou;
