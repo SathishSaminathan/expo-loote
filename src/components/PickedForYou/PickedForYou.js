@@ -12,6 +12,7 @@ import { Feather } from "@expo/vector-icons";
 
 import Colors from "../../constants/ThemeConstants";
 import PriceTag from "../shared/PriceTag";
+import BrandTag from "../shared/BrandTag";
 
 const { width, height } = Dimensions.get("window");
 const PRODUCT_CARD_WIDTH = width / 2 - 18;
@@ -110,18 +111,7 @@ class PickedForYou extends Component {
                 alignItems: "flex-start"
               }}
             >
-              <Text
-                style={{
-                  color: Colors.white,
-                  paddingVertical: 3,
-                  paddingHorizontal: 5,
-                  borderRadius: 10,
-                  fontSize: 7,
-                  backgroundColor: Colors.primaryDarkThemeColor
-                }}
-              >
-                Amazon
-              </Text>
+              <BrandTag brand="Amazon" />
               <TouchableOpacity onPress={() => this.onShare(data.link)}>
                 <Feather
                   style={{

@@ -100,7 +100,7 @@ const DealsOfTheDayData = [
   }
 ];
 
-export default class GadgetsUnder100 extends Component {
+export default class GadgetsUnder500 extends Component {
   _shareComponent = new ShareComponent();
 
   state = {
@@ -189,7 +189,7 @@ export default class GadgetsUnder100 extends Component {
             style={{
               flex: 1,
               // borderTopWidth: 1,
-              backgroundColor: Colors.like,
+              backgroundColor: Colors.primaryDarkThemeColor,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center"
@@ -219,14 +219,20 @@ export default class GadgetsUnder100 extends Component {
         }}
       >
         <StatusBar />
-        <Header {...this.props} screen={AppConstants.GADGETS_UNDER_100} />
+        <Header {...this.props} screen={AppConstants.GADGETS_UNDER_500} />
         <View
           style={{ padding: 10, paddingBottom: Constants.statusBarHeight * 4 }}
         >
           <LinearGradient
             start={{ x: 0, y: 0.75 }}
             end={{ x: 1, y: 0.25 }}
-            colors={["#f74e7f", "#f74e7f", "#f74e7f", "#f87b48", "#f87b48"]}
+            colors={[
+              Colors.primaryThemeColor,
+              Colors.primaryThemeColor,
+              Colors.primaryThemeColor,
+              Colors.secondaryColor,
+              Colors.secondaryColor
+            ]}
             style={{
               borderRadius: 10,
               elevation: 10,
