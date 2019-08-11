@@ -30,6 +30,7 @@ import CameraScreen from "../screens/CameraScreen";
 import Images from "../assets/images/images";
 import Wishlist from "../screens/Wishlist";
 import GadgetsUnder100 from "../components/GadgetsUnder100";
+import GadgetsUnder500 from "../components/GadgetsUnder500";
 
 const { width, height } = Dimensions.get("window");
 
@@ -166,6 +167,18 @@ const AppDrawerNavigations = createDrawerNavigator(
     },
     "Gadgets Under 100": {
       screen: GadgetsUnder100,
+      navigationOptions: {
+        drawerIcon: ({ tintColor }) => (
+          <FontAwesome
+            color={tintColor}
+            name="rupee"
+            style={{ fontSize: 20 }}
+          />
+        )
+      }
+    },
+    "Gadgets Under 500": {
+      screen: GadgetsUnder500,
       navigationOptions: {
         drawerIcon: ({ tintColor }) => (
           <FontAwesome
